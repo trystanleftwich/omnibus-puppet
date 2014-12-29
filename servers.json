@@ -36,6 +36,7 @@
     "box": "opscode-centos-5.11",
     "box_url": "http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_centos-5.11_chef-provisionerless.box",
     "recipes": [
+      "yum-epel",
       "omnibus::default"
     ]
   },
