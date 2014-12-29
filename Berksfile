@@ -1,3 +1,4 @@
-site :opscode
+source 'https://api.berkshelf.com'
 
-cookbook "omnibus"
+cookbook 'yum-epel'
+cookbook 'omnibus'

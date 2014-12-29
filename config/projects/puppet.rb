@@ -2,10 +2,17 @@ name "puppet"
 maintainer "Fletcher Nichol"
 homepage "https://github.com/fnichol/omnibus-puppet"
 
-replaces        "puppet"
-install_path    "/opt/puppet"
-build_version   Omnibus::BuildVersion.new.semver
-build_iteration 1
+replace         "puppet"
+install_dir     "/opt/puppet"
+build_version   "3.7.3"
+
+release_num=1
+if ohai['platform_family'] == 'rhel'
+  dist = File.read('/etc/redhat-release').gsub(/^.*release\ (\d+).\d+.*\ .*\n$/, '\1')
+  build_iteration "#{release_num}.el#{dist}"
+else
+  build_iteration release_num
+end
 
 # creates required build directories
 dependency "preparation"

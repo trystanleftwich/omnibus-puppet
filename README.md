@@ -16,10 +16,10 @@ $ bundle install --binstubs
 
 ### Build
 
-You create a platform-specific package using the `build project` command:
+You create a platform-specific package using the `build` command:
 
 ```shell
-$ bin/omnibus build project puppet
+$ bin/omnibus build puppet
 ```
 
 The platform/architecture type of the package created will match the platform
@@ -61,9 +61,11 @@ that will allow you to build your projects on the following platforms:
 
 * CentOS 5 64-bit
 * CentOS 6 64-bit
+* CentOS 7 64-bit
 * Ubuntu 10.04 64-bit
 * Ubuntu 11.04 64-bit
 * Ubuntu 12.04 64-bit
+* Ubuntu 14.04 64-bit
 
 Please note this build-lab is only meant to get you up and running quickly;
 there's nothing inherent in Omnibus that restricts you to just building CentOS
@@ -71,6 +73,7 @@ or Ubuntu packages. See the Vagrantfile to add new platforms to your build lab.
 
 The only requirements for standing up this virtualized build lab are:
 
+* ChefDK - development tools packaged and built by the Chef community
 * VirtualBox - native packages exist for most platforms and can be downloaded
 from the [VirtualBox downloads page](https://www.virtualbox.org/wiki/Downloads).
 * Vagrant 1.2.1+ - native packages exist for most platforms and can be downloaded

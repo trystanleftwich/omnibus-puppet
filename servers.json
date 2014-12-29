@@ -1,0 +1,59 @@
+{
+  "ubuntu-10.04": {
+    "berksfile_path": "./Berksfile",
+    "box": "opscode-ubuntu-10.04",
+    "box_url": "https://opscode-vm.s3.amazonaws.com/vagrant/opscode_ubuntu-10.04_provisionerless.box",
+    "recipes": [
+      "omnibus::default"
+    ]
+  },
+  "ubuntu-11.04": {
+    "berksfile_path": "./Berksfile",
+    "box": "opscode-ubuntu-11.04",
+    "box_url": "https://opscode-vm.s3.amazonaws.com/vagrant/opscode_ubuntu-11.04_provisionerless.box",
+    "recipes": [
+      "omnibus::default"
+    ]
+  },
+  "ubuntu-12.04": {
+    "berksfile_path": "./Berksfile",
+    "box": "opscode-ubuntu-12.04",
+    "box_url": "https://opscode-vm.s3.amazonaws.com/vagrant/opscode_ubuntu-12.04_provisionerless.box",
+    "recipes": [
+      "omnibus::default"
+    ]
+  },
+  "ubuntu-14.04": {
+    "berksfile_path": "./Berksfile",
+    "box": "opscode-ubuntu-14.04",
+    "box_url": "http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_ubuntu-14.04_chef-provisionerless.box",
+    "recipes": [
+      "omnibus::default"
+    ]
+  },
+  "centos-5": {
+    "berksfile_path": "./Berksfile",
+    "box": "opscode-centos-5.11",
+    "box_url": "http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_centos-7.0_chef-provisionerless.box",
+    "recipes": [
+      "omnibus::default"
+    ]
+  },
+  "centos-6": {
+    "berksfile_path": "./Berksfile",
+    "box": "opscode-centos-6.6",
+    "box_url": "http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_centos-6.6_chef-provisionerless.box",
+    "recipes": [
+      "omnibus::default"
+    ]
+  },
+  "centos-7": {
+    "berksfile_path": "./Berksfile",
+    "box": "opscode-centos-7.0",
+    "box_url": "http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_centos-7.0_chef-provisionerless.box",
+    "recipes": [
+      "yum-epel",
+      "omnibus::default"
+    ]
+  }
+}

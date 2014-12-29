@@ -2,48 +2,21 @@
 # vi: set ft=ruby :
 
 require "vagrant"
+require "json"
+
+VAGRANTFILE_API_VERSION=2
 
 if Vagrant::VERSION < "1.2.1"
   raise "The Omnibus Build Lab is only compatible with Vagrant 1.2.1+"
 end
 
-host_project_path = File.expand_path("..", __FILE__)
-guest_project_path = "/home/vagrant/#{File.basename(host_project_path)}"
-project_name = "puppet"
-
-Vagrant.configure("2") do |config|
+Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
+  host_project_path = File.expand_path("..", __FILE__)
+  guest_project_path = "/home/vagrant/#{File.basename(host_project_path)}"
+  project_name = "puppet"
+  servers = JSON.load(File.read("./servers.json"))
 
   config.vm.hostname = "#{project_name}-omnibus-build-lab"
-
-  config.vm.define 'ubuntu-10.04' do |c|
-    c.berkshelf.berksfile_path = "./Berksfile"
-    c.vm.box = "opscode-ubuntu-10.04"
-    c.vm.box_url = "https://opscode-vm.s3.amazonaws.com/vagrant/opscode_ubuntu-10.04_provisionerless.box"
-  end
-
-  config.vm.define 'ubuntu-11.04' do |c|
-    c.berkshelf.berksfile_path = "./Berksfile"
-    c.vm.box = "opscode-ubuntu-11.04"
-    c.vm.box_url = "https://opscode-vm.s3.amazonaws.com/vagrant/opscode_ubuntu-11.04_provisionerless.box"
-  end
-
-  config.vm.define 'ubuntu-12.04' do |c|
-    c.berkshelf.berksfile_path = "./Berksfile"
-    c.vm.box = "opscode-ubuntu-12.04"
-    c.vm.box_url = "https://opscode-vm.s3.amazonaws.com/vagrant/opscode_ubuntu-12.04_provisionerless.box"
-  end
-
-  config.vm.define 'centos-5' do |c|
-    c.berkshelf.berksfile_path = "./Berksfile"
-    c.vm.box = "opscode-centos-5.9"
-    c.vm.box_url = "https://opscode-vm.s3.amazonaws.com/vagrant/opscode_centos-5.9_provisionerless.box"
-  end
-
-  config.vm.define 'centos-6' do |c|
-    c.berkshelf.berksfile_path = "./Berksfile"
-    c.vm.box = "opscode-centos-6.4"
-    c.vm.box_url = "https://opscode-vm.s3.amazonaws.com/vagrant/opscode_centos-6.4_provisionerless.box"
-  end
 
   config.vm.provider :virtualbox do |vb|
     # Give enough horsepower to build without taking all day.
@@ -54,42 +27,49 @@ Vagrant.configure("2") do |config|
     ]
   end
 
-  # Ensure a recent version of the Chef Omnibus packages are installed
-  config.omnibus.chef_version = :latest
-
-  # Enable the berkshelf-vagrant plugin
-  config.berkshelf.enabled = true
-  # The path to the Berksfile to use with Vagrant Berkshelf
-  config.berkshelf.berksfile_path = "./Berksfile"
-
-  config.ssh.max_tries = 40
-  config.ssh.timeout   = 120
+  if Vagrant::VERSION < "1.3.0"
+    config.ssh.max_tries = 40
+    config.ssh.timeout   = 120
+  end
   config.ssh.forward_agent = true
-
-  host_project_path = File.expand_path("..", __FILE__)
-  guest_project_path = "/home/vagrant/#{File.basename(host_project_path)}"
 
   config.vm.synced_folder host_project_path, guest_project_path
 
-  # prepare VM to be an Omnibus builder
-  config.vm.provision :chef_solo do |chef|
-    chef.json = {
-      "omnibus" => {
-        "build_user" => "vagrant",
-        "build_dir" => guest_project_path,
-        "install_dir" => "/opt/#{project_name}"
-      }
-    }
+  servers.each do |name, attrs|
+    config.vm.define name do |c|
+      c.berkshelf.berksfile_path = attrs['berksfile_path']
+      c.vm.box = attrs['box']
+      c.vm.box_url = attrs['box_url']
 
-    chef.run_list = [
-      "recipe[omnibus::default]"
-    ]
+      # Make sure that we have updated the repo lists in case of apt-get
+      c.vm.provision :shell do |s|
+        s.path = "./build-scripts/apt-get-update.sh"
+      end
+
+      # prepare VM to be an Omnibus builder
+      c.vm.provision :chef_solo do |chef|
+        chef.json = {
+          "omnibus" => {
+            "build_user" => "vagrant",
+            "build_dir" => guest_project_path,
+            "install_dir" => "/opt/#{project_name}"
+          }
+        }
+
+        attrs['recipes'].each do |recipe|
+          chef.add_recipe recipe
+        end
+      end
+
+      c.vm.provision :shell do |s|
+        s.path = "./build-scripts/build.sh"
+        s.args = [guest_project_path, project_name]
+        s.privileged = false
+      end
+    end
   end
 
-  config.vm.provision :shell, :inline => <<-OMNIBUS_BUILD
-    export PATH=/usr/local/bin:$PATH
-    cd #{guest_project_path}
-    su vagrant -c "bundle install --binstubs"
-    su vagrant -c "bin/omnibus build project #{project_name}"
-  OMNIBUS_BUILD
+  config.omnibus.chef_version = :latest
+  config.berkshelf.enabled = true
+  config.berkshelf.berksfile_path = "./Berksfile"
 end
