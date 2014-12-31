@@ -7,11 +7,19 @@
 PREFIX="/usr"
 
 # Clean up binary symlinks if they exist
-if [ ! -e /etc/redhat-release -o "x$1" == "x0" ]; then
-  rm -f $PREFIX/bin/puppet
-  rm -f $PREFIX/bin/facter
+if [ ! -e /etc/redhat-release -o "x$1" == "x0" ] ; then
+  /bin/rm -f $PREFIX/bin/puppet
+  /bin/rm -f $PREFIX/bin/facter
+  /bin/rm -f $PREFIX/bin/hiera
+  /bin/rm -f /etc/init.d/puppet
+  /bin/rm -f /etc/sysconfig/puppet
+  /bin/rm -f /etc/logrotate.d/puppet
 fi
 
-echo "puppet has been uninstalled!"
+if [[ -L /etc/puppet && -d /etc/puppet ]] ; then
+  /bin/rm -f /etc/puppet
+fi
+
+echo "Puppet has been uninstalled!"
 
 exit 0

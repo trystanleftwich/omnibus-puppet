@@ -12,7 +12,9 @@ override :rubygems, version: "2.4.4"
 override :zlib,     version: "1.2.8"
 
 release_num=1
-if ohai['platform_family'] == 'rhel'
+
+case ohai['platform_family']
+when 'rhel'
   dist = File.read('/etc/redhat-release').gsub(/^.*release\ (\d+).\d+.*\ .*\n$/, '\1')
   build_iteration "#{release_num}.el#{dist}"
 else
@@ -20,7 +22,18 @@ else
 end
 
 dependency "preparation"
-dependency "puppet-gem"
+dependency "puppet"
+
+case ohai['platform_family']
+when 'rhel'
+  config_file "#{install_dir}/etc/logrotate.d/puppet"
+  config_file "#{install_dir}/etc/puppet/puppet.conf"
+  config_file "#{install_dir}/etc/sysconfig/puppet"
+  config_file "#{install_dir}/etc/init.d/puppet"
+when 'debian'
+  # Don't do anything yet.  We'll work on the configs later
+end
+
 dependency "version-manifest"
 
 exclude "\.git*"

@@ -15,6 +15,13 @@ error_exit()
   exit 1
 }
 
+function copy_if_absent
+{
+  if ! [[ -f $2 ]] ; then
+    cp -rfp $1 $2
+  fi
+}
+
 PREFIX="/usr"
 
 # move the actual files into place
@@ -25,6 +32,19 @@ rm -f $DEST_DIR/$PROGNAME
 
 ln -sf $DEST_DIR/bin/puppet /usr/bin || error_exit "Cannot link puppet to /usr/bin"
 ln -sf $DEST_DIR/bin/facter /usr/bin || error_exit "Cannot link facter to /usr/bin"
+ln -sf $DEST_DIR/bin/hiera /usr/bin || error_exit "Cannot link facter to /usr/bin"
+
+if ! [[ -d /etc/puppet ]] ; then
+  ln -sf $INSTALLER_DIR/etc/puppet /etc/puppet || error_exit "Cannot link /etc/puppet"
+else
+  echo "/etc/puppet already exists.  Will not link."
+fi
+
+copy_if_absent $INSTALLER_DIR/etc/init.d/puppet /etc/init.d/puppet
+chmod 755 /etc/init.d/puppet
+
+copy_if_absent $INSTALLER_DIR/etc/logrotate.d/puppet /etc/logrotate.d/puppet
+copy_if_absent $INSTALLER_DIR/etc/sysconfig/puppet /etc/sysconfig/puppet
 
 echo "Thank you for installing Puppet!"
 

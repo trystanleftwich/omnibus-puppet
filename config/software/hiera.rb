@@ -1,4 +1,4 @@
-name "hiera-gem"
+name "hiera"
 default_version "1.3.4"
 
 dependency "ruby"

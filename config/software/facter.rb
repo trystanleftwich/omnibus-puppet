@@ -1,4 +1,4 @@
-name "facter-gem"
+name "facter"
 default_version "2.0.2"
 
 dependency "ruby"
