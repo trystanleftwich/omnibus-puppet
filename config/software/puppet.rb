@@ -29,8 +29,8 @@ build do
 
   files_dir = File.join(Omnibus::Config.project_root, 'files')
   # Add the puppet_gem provider
-  puppet_gem = Dir["#{install_dir}/embedded/lib/ruby/gems/*/gems/puppet-*"]
-  provider_path = File.join(puppet_gem, '/lib/puppet/provider/package', 'puppet_gem.rb')
+  puppet_gem_path = Dir["#{install_dir}/embedded/lib/ruby/gems/*/gems/puppet-*"]
+  provider_path = File.join(puppet_gem_path, '/lib/puppet/provider/package', 'puppet_gem.rb')
   provider = File.join(files_dir, 'providers', 'puppet_gem.rb')
   copy provider, provider_path
 
