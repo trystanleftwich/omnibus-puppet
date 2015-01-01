@@ -27,17 +27,6 @@ build do
     gem "install #{name} -n #{install_dir}/embedded/bin --no-rdoc --no-ri -v #{vers}", :env => env
   end
 
-  files_dir = File.join(Omnibus::Config.project_root, 'files')
-  # Add the puppet_gem provider
-  puppet_gem_path = Dir["#{install_dir}/embedded/lib/ruby/gems/*/gems/puppet-*"]
-  provider_path = File.join(puppet_gem_path, '/lib/puppet/provider/package', 'puppet_gem.rb')
-  provider = File.join(files_dir, 'providers', 'puppet_gem.rb')
-  copy provider, provider_path
-
-  # Add config files
-  etc = File.join(files_dir, 'etc')
-  sync etc, "#{install_dir}/etc"
-
   delete "#{install_dir}/embedded/docs"
   delete "#{install_dir}/embedded/share/man"
   delete "#{install_dir}/embedded/share/doc"
