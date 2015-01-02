@@ -24,6 +24,7 @@ end
 
 dependency "preparation"
 dependency "puppet"
+dependency "puppet-files"
 
 case ohai['platform_family']
 when 'rhel'
