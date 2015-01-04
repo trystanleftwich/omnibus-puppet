@@ -13,7 +13,7 @@ end
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   host_project_path = File.expand_path("..", __FILE__)
   guest_project_path = "/home/vagrant/#{File.basename(host_project_path)}"
-  project_name = "puppet"
+  project_name = ENV['OMNIBUS_PROJECT'] || "puppet"
   servers = JSON.load(File.read("./servers.json"))
 
   config.vm.hostname = "#{project_name}-omnibus-build-lab"
@@ -52,7 +52,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
           "omnibus" => {
             "build_user" => "vagrant",
             "build_dir" => guest_project_path,
-            "install_dir" => "/opt/#{project_name}"
+            "install_dir" => "/opt/puppet",
+            "ruby_version" => "2.0.0"
           }
         }
 

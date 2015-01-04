@@ -1,9 +1,8 @@
 name "puppet"
 friendly_name "Puppet Agent"
-maintainer "Fletcher Nichol"
-homepage "https://github.com/fnichol/omnibus-puppet"
+maintainer "Rob Lyon"
+homepage "https://github.com/rlyon/omnibus-puppet"
 
-replace         "puppet"
 install_dir     "/opt/puppet"
 build_version   "3.7.3"
 
@@ -24,7 +23,6 @@ end
 
 dependency "preparation"
 dependency "puppet"
-dependency "puppet-files"
 
 case ohai['platform_family']
 when 'rhel'

@@ -1,0 +1,50 @@
+--- Rakefile.bad	2015-01-04 19:03:48.000000000 +0000
++++ Rakefile	2015-01-04 21:12:25.000000000 +0000
+@@ -70,14 +70,15 @@
+ 
+ if @pe
+     @install_dir = "/opt/puppet/share/puppetdb"
+-    @etc_dir = "/etc/puppetlabs/puppetdb"
+-    @config_dir = "/etc/puppetlabs/puppetdb/conf.d"
++    @etc_dir = "/opt/puppet/etc/puppetdb"
++    @config_dir = "/opt/puppet/etc/puppetdb/conf.d"
+     @lib_dir = "/opt/puppet/share/puppetdb"
+     @libexec_dir = "/opt/puppet/libexec/puppetdb"
+-    @name ="pe-puppetdb"
+-    @sbin_dir = "/opt/puppet/sbin"
+-    @pe_version = ENV['PE_VER'] || '3.0'
+-    @java_bin = "/opt/puppet/bin/java"
++    @name ="puppetdb"
++    @bin_dir = "/opt/puppet/bin"
++    @sbin_dir = "/opt/puppet/bin"
++    @pe_version = ENV['PE_VER'] || '2.2.2'
++    @java_bin = "/opt/puppet/embedded/jre/bin/java"
+ else
+     @install_dir = case @osfamily
+       when /openbsd/
+@@ -106,8 +107,8 @@
+       end
+ end
+ 
+-@initscriptname = "/etc/init.d/#{@name}"
+-@log_dir = "/var/log/#{@name}"
++@initscriptname = "/opt/puppet/etc/init.d/#{@name}"
++@log_dir = "/opt/puppet/log/#{@name}"
+ 
+ # We only need the ruby major, minor versions
+ @ruby_version = (ENV['RUBY_VER'] || Facter.value(:rubyversion))[0..2]
+@@ -117,8 +118,7 @@
+ 
+ PATH = ENV['PATH']
+ DESTDIR=  ENV['DESTDIR'] || ''
+-PE_SITELIBDIR = "/opt/puppet/lib/ruby/site_ruby/1.9.1"
+-
++PE_SITELIBDIR = Dir['/opt/puppet/embedded/lib/ruby/site_ruby/2.*']
+ 
+ case @osfamily
+   when /debian/
+@@ -200,4 +200,3 @@
+ 
+ desc 'Build a Source rpm for puppetdb'
+ task :srpm => [ 'package:implode', 'package:bootstrap', 'package:srpm' ]
+-

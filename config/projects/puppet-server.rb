@@ -1,5 +1,5 @@
-name "puppetdk"
-friendly_name "Puppet Development Kit"
+name "puppet-server"
+friendly_name "Puppet Server"
 maintainer "Rob Lyon"
 homepage "https://github.com/rlyon/omnibus-puppet"
 
@@ -10,20 +10,22 @@ override :ruby,     version: "2.1.5"
 override :bundler,  version: "1.7.5"
 override :rubygems, version: "2.4.4"
 override :zlib,     version: "1.2.8"
-override :puppet,   version: "3.7.3"
+override :jre,      version: "7u3-b04"
 
 release_num=1
 
 case ohai['platform_family']
 when 'rhel'
-  dist = File.read('/etc/redhat-release').gsub(/^.*release\ (\d+).\d+.*\ .*\n$/, '\1')
+  dist = File.read(
+    '/etc/redhat-release'
+  ).gsub(/^.*release\ (\d+).\d+.*\ .*\n$/, '\1')
   build_iteration "#{release_num}.el#{dist}"
 else
   build_iteration release_num
 end
 
 dependency "preparation"
-dependency "puppetdk"
+dependency "puppet-server"
 
 case ohai['platform_family']
 when 'rhel'
@@ -39,9 +41,3 @@ dependency "version-manifest"
 
 exclude "\.git*"
 exclude "bundler\/git"
-
-package :pkg do
-  identifier "me.rlyon.puppetdk"
-end
-
-compress :dmg
