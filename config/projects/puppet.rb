@@ -11,7 +11,7 @@ override :bundler,  version: "1.7.5"
 override :rubygems, version: "2.4.4"
 override :zlib,     version: "1.2.8"
 
-release_num=1
+release_num=2
 
 case ohai['platform_family']
 when 'rhel'
@@ -29,7 +29,6 @@ when 'rhel'
   config_file "#{install_dir}/etc/logrotate.d/puppet"
   config_file "#{install_dir}/etc/puppet/puppet.conf"
   config_file "#{install_dir}/etc/sysconfig/puppet"
-  config_file "#{install_dir}/etc/init.d/puppet"
 when 'debian'
   # Don't do anything yet.  We'll work on the configs later
 end

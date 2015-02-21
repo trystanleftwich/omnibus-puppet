@@ -40,10 +40,27 @@
       "omnibus::default"
     ]
   },
+  "centos-5-i386": {
+    "berksfile_path": "./Berksfile",
+    "box": "opscode-centos-5.11-i386",
+    "box_url": "http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_centos-5.11-i386_chef-provisionerless.box",
+    "recipes": [
+      "yum-epel",
+      "omnibus::default"
+    ]
+  },
   "centos-6": {
     "berksfile_path": "./Berksfile",
     "box": "opscode-centos-6.6",
     "box_url": "http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_centos-6.6_chef-provisionerless.box",
+    "recipes": [
+      "omnibus::default"
+    ]
+  },
+  "centos-6-i386": {
+    "berksfile_path": "./Berksfile",
+    "box": "opscode-centos-6.6-i386",
+    "box_url": "http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_centos-6.6-i386_chef-provisionerless.box",
     "recipes": [
       "omnibus::default"
     ]
