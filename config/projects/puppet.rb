@@ -3,7 +3,7 @@ friendly_name "Puppet Agent"
 maintainer "Rob Lyon"
 homepage "https://github.com/rlyon/omnibus-puppet"
 
-install_dir     "/opt/puppet"
+install_dir     "/tmp/puppet"
 build_version   "3.7.3"
 
 override :ruby,     version: "2.1.5"

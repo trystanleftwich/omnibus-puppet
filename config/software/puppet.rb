@@ -10,7 +10,11 @@ dependency "hiera"
 build do
   env = with_standard_compiler_flags(with_embedded_path)
 
-  gem "install puppet -n #{install_dir}/bin --no-rdoc --no-ri -v #{version}", :env => env
+  gem_dir = File.join(
+        install_dir,
+            'embedded/lib/ruby/gems/2.1.0/')
+
+  gem "install puppet -n #{install_dir}/bin -i #{gem_dir} --no-rdoc --no-ri -v #{version}", :env => env
 
   # Install the supporting gems
   puppet_gems = {
@@ -25,7 +29,7 @@ build do
   }
 
   puppet_gems.each do |name, vers|
-    gem "install #{name} -n #{install_dir}/embedded/bin --no-rdoc --no-ri -v #{vers}", :env => env
+    gem "install #{name} -n #{install_dir}/embedded/bin -i #{gem_dir} --no-rdoc --no-ri -v #{vers}", :env => env
   end
 
   # Copy over the configuration files

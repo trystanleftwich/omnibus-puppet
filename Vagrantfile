@@ -52,8 +52,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
           "omnibus" => {
             "build_user" => "vagrant",
             "build_dir" => guest_project_path,
-            "install_dir" => "/opt/puppet",
-            "ruby_version" => "2.0.0"
+            "install_dir" => "/tmp/puppet",
+            "ruby_version" => "2.1.5"
           }
         }
 

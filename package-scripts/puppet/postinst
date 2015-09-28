@@ -5,7 +5,7 @@
 #
 
 PROGNAME=$(basename $0)
-INSTALL_DIR="/opt/puppet"
+INSTALL_DIR="/tmp/"
 PREFIX="/usr"
 
 if [ -f /etc/redhat-release ]; then

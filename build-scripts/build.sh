@@ -7,5 +7,5 @@ cd $PROJECT_PATH
 
 export PATH=/usr/local/bin:$PATH
 
-bundle install --binstubs
+bundle install --binstubs 
 bin/omnibus build $PROJECT_NAME

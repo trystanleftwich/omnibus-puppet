@@ -18,7 +18,7 @@ Puppet::Type.type(:package).provide :puppet_gem, :parent => Puppet::Provider::Pa
 
   has_feature :versionable, :install_options
 
-  commands :gemcmd => "/opt/puppet/embedded/bin/gem"
+  commands :gemcmd => "/tmp/puppet/embedded/bin/gem"
 
   def self.gemlist(options)
     gem_list_command = [command(:gemcmd), "list"]
