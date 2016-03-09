@@ -1,5 +1,5 @@
 name "puppet"
-default_version "3.7.3"
+default_version "3.8.4"
 
 dependency "augeas"
 dependency "ruby"

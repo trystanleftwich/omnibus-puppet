@@ -31,6 +31,14 @@
       "omnibus::default"
     ]
   },
+  "debian-7.4": {
+    "berksfile_path": "./Berksfile",
+    "box": "opscode-debian-7.4",
+    "box_url": "http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_debian-7.4_chef-provisionerless.box",
+    "recipes": [
+      "omnibus::default"
+    ]
+  },
   "centos-5": {
     "berksfile_path": "./Berksfile",
     "box": "opscode-centos-5.11",

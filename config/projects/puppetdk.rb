@@ -4,13 +4,13 @@ maintainer "Rob Lyon"
 homepage "https://github.com/rlyon/omnibus-puppet"
 
 install_dir     "/tmp/puppet"
-build_version   "3.7.3"
+build_version   "3.8.4"
 
 override :ruby,     version: "2.1.5"
 override :bundler,  version: "1.7.5"
 override :rubygems, version: "2.4.4"
 override :zlib,     version: "1.2.8"
-override :puppet,   version: "3.7.3"
+override :puppet,   version: "3.8.4"
 
 release_num=1
 
